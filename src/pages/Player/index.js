@@ -3,19 +3,15 @@ import styles from "./Player.module.css";
 import Titulo from "componentes/Titulo";
 import { useParams } from "react-router-dom";
 import NaoEncontrada from "pages/NaoEncontrada";
-import { useEffect, useState } from "react";
+import videos from 'json/db.json';
 
 function Player() {
-    const [video, setVideo] = useState();
+    
     const parametros = useParams();
     
-    useEffect(() => {
-        fetch(`https://my-json-server.typicode.com/maikaminski/cinetag-api/videos?id=${parametros.id}`)
-        .then(resposta => resposta.json())
-        .then(dados => {
-            setVideo(...dados)
-        })
-    }, [])
+    const video = videos.find((video) => {
+        return video.id === Number(parametros.id);
+    })
 
     if (!video) {
         return <NaoEncontrada />
